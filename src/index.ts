@@ -1,20 +1,23 @@
-import express from "express";
-import path from "path";
-const app = express();
-const port = 8080; // default port to listen
+import "express-async-errors";
+import { createContainer } from "./container";
 
-// Configure Express to use EJS
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+(async () => {
+  const container = await createContainer();
+  process.on("uncaughtException", (err) => {
+    // TODO: add logger error(`Uncaught: ${err.toString()}`, err)
+    console.log(err);
+    process.exit(1);
+  });
 
-// define a route handler for the default home page
-app.get("/", (req, res) => {
-  // render the index template
-  res.render("index");
-});
+  process.on("unhandledRejection", (err) => {
+    if (err) {
+      // TODO: add logger error(`Unhandled: ${err.toString()}`, err)
+      console.log(err);
+    }
+    process.exit(1);
+  });
 
-// start the express server
-app.listen(port, () => {
-  // tslint:disable-next-line:no-console
-  console.log(`server started at http://localhost:${port}`);
-});
+  const { server } = container.cradle;
+  server.listen(8080);
+  // TODO: add logger info(`listening on port: ${port}`)
+})();
