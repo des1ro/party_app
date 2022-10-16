@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
-    "build": "tsc",
-    "prestart": "npm run build",
-    "start": "nodemon src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild `find src \\( -name '*.ts' \\)` --platform=node --outdir=build --resolve-extensions=.js",
+    "dev": "concurrently --kill-others-on-fail 'npm run dev:db' 'npm run dev:ts-node'",
+    "dev:db": "docker-compose up",
+    "dev:ts-node": "wait-on tcp:5432 --interval 1000 && prisma generate && nodemon src/index.ts | pino-pretty --colorize"
   },
   "repository": {
     "type": "git",
@@ -23,11 +22,16 @@
   },
   "homepage": "https://github.com/des1ro/party_app#readme",
   "dependencies": {
+    "@prisma/client": "^4.4.0",
     "awilix": "^7.0.3",
+    "concurrently": "^7.4.0",
     "cors": "^2.8.5",
+    "esbuild": "^0.15.11",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
-    "helmet": "^6.0.0"
+    "helmet": "^6.0.0",
+    "pino-pretty": "^9.1.1",
+    "wait-on": "^6.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
