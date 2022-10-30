@@ -27,6 +27,7 @@ cp .env.example .env
 ```
 npm run dev
 ```
+-npm run dev:ts-no
 
 - Backend works on 8080
   <a href="http://localhost:8080/health">http://localhost:8080/health</a>
