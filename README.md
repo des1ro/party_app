@@ -25,9 +25,8 @@ cp .env.example .env
 - Start docker and app
 
 ```
-npm run dev
+npm run dev or npm run dev:ts-no (windows)
 ```
--npm run dev:ts-no
 
 - Backend works on 8080
   <a href="http://localhost:8080/health">http://localhost:8080/health</a>
