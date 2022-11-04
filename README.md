@@ -25,7 +25,7 @@ cp .env.example .env
 - Start docker and app
 
 ```
-npm run dev or npm run dev:ts-no (windows)
+npm run dev or npm run dev:db (windows)
 ```
 
 - Backend works on 8080
